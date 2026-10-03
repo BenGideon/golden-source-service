@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: golden-source-service
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/goldensource}
+    username: ${DB_USERNAME:golden}
+    password: ${DB_PASSWORD:golden123}
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+  endpoint:
+    health:
+      show-details: always

@@ -1,0 +1,40 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: golden-source-postgres
+
+    environment:
+      POSTGRES_DB: goldensource
+      POSTGRES_USER: golden
+      POSTGRES_PASSWORD: golden123
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - golden_source_pgdata:/var/lib/postgresql/data
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U golden -d goldensource"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  golden-source-service:
+    image: golden-source-service:0.0.1
+    container_name: golden-source-service
+
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/goldensource
+      DB_USERNAME: golden
+      DB_PASSWORD: golden123
+
+    ports:
+      - "8080:8080"
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  golden_source_pgdata:
