@@ -14,6 +14,24 @@ jobs:
     name: Build and Test
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:16
+
+        env:
+          POSTGRES_DB: goldensource
+          POSTGRES_USER: golden
+          POSTGRES_PASSWORD: golden123
+
+        ports:
+          - 5432:5432
+
+        options: >-
+          --health-cmd "pg_isready -U golden -d goldensource"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
     steps:
       - name: Checkout source
         uses: actions/checkout@v6
