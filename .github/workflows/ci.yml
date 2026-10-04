@@ -49,6 +49,13 @@ jobs:
       - name: Build and test
         run: ./mvnw clean verify
 
+      - name: Upload application artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: golden-source-service-${{ github.sha }}
+          path: target/golden-source-service-0.0.1-SNAPSHOT.jar
+          if-no-files-found: error
+
       - name: Build Docker image
         run: |
           docker build \
