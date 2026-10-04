@@ -70,10 +70,10 @@ jobs:
       - name: Build Docker image
         run: |
           docker build \
-            -t ghcr.io/${{ github.repository_owner }}/golden-source-service:${{ github.sha }} \
+            -t ghcr.io/bengideon/golden-source-service:${{ github.sha }} \
             .
 
       - name: Push Docker image
         run: |
           docker push \
-            ghcr.io/${{ github.repository_owner }}/golden-source-service:${{ github.sha }}
+            ghcr.io/bengideon/golden-source-service:${{ github.sha }}
